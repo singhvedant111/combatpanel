@@ -1,0 +1,39 @@
+{
+  "name": "evoting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "alert-node": "^3.0.11",
+    "bootstrap-fileinput": "^5.1.2",
+    "confirm-dialog": "^0.1.2",
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "csvjson": "^5.1.0",
+    "dialog": "^0.3.1",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
+    "express-handlebars": "^4.0.4",
+    "express-layout": "^0.1.0",
+    "firebase": "^7.15.5",
+    "firebase-admin": "^8.12.1",
+    "firebaseui": "^4.5.1",
+    "fs": "0.0.1-security",
+    "message-box": "^0.2.7",
+    "moment": "^2.27.0",
+    "popups": "^1.1.3",
+    "uuid": "^8.2.0",
+    "uuid-v4": "^0.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

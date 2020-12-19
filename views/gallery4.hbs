@@ -1,0 +1,59 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="card-header">
+        <h3 class="card-title">Gallery 4</h3>
+      </div>
+      <div class="card-body">
+    
+        <div class="card card-primary">
+        
+          </div>
+          <div class="card-body">
+            <form ref='uploadForm' action="/gallery4" method="POST" encType="multipart/form-data">
+            <div class="form-group">
+              <label for="inputProjectLeader">Title</label>
+              <input type="text" name="title" class="form-control" placeholder="Title" value="{{title}}" required>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner Photo</label>
+              <br/>
+             <input type="file" name="banner" class="btn btn-sm btn-success" value="Upload" accept="image/*"></input>
+             <div class="col-sm-3">
+               <br/>
+                {{#if banner}}
+               <img class="img-fluid mb-2" src="{{banner}}" alt="Photo">
+               {{else}}
+               {{/if}}
+             </div>
+             
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Upload Photos</label>
+              <br/>
+             <input type="file" name="photos" class="btn btn-sm btn-primary" value="Upload" accept="image/*" multiple></input>
+            </div>
+            <div class="text-center mt-5 mb-3">
+          
+              <button type="submit" class="btn btn-primary btn-block">Upload Photo</a>
+            </div>
+             <label for="inputProjectLeader">Uploaded Photos</label>
+            {{#each photolist}}
+            <div class="col-sm-3">
+               <br/>
+               <img class="img-fluid mb-2" src="{{this}}" alt="Photo">
+               <a href="/remphoto?gallery=gallery4&url={{@key}}" class="btn btn-danger">Remove</a>
+             </div>
+             {{/each}}
+          </form>
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+      </div>
+      <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->

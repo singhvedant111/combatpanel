@@ -1,0 +1,78 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="card-header">
+        <h3 class="card-title">Event 1</h3>
+      </div>
+      <div class="card-body">
+    
+        <div class="card card-primary">
+        
+          </div>
+          <div class="card-body">
+            <form ref='uploadForm' action="/event1" method="POST" encType="multipart/form-data">
+            <div class="form-group">
+              <label for="inputProjectLeader">Title</label>
+              <input type="text" name="title" class="form-control" placeholder="Title" value="{{title}}" required>
+            </div>
+            <div class="form-group">
+              
+              <label for="inputName">Fighter 1 Name</label>
+              <input type="text" name="fighter1" class="form-control" placeholder="Fighter 1" value="{{fighter1}}" required>
+            </div>
+               <div class="form-group">
+              <label for="inputProjectLeader">Fighter 1 Photo</label>
+              <br/>
+             <input type="file" name="fight1p" class="btn btn-sm btn-primary" value="Upload"></input>
+              {{#if f1p}}
+               <img class="profile-user-img img-fluid img-circle" src="{{f1p}}" alt="User Image">
+              {{else}}
+              {{/if}}
+            </div>
+            <div class="form-group">
+              <label for="inputClientCompany">Fighter 2 Name</label>
+              <input type="text" name="fighter2" class="form-control" placeholder="Fighter 2" value="{{fighter2}}" required>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Fighter 2 Photo</label>
+              <br/>
+             <input type="file" name="fight2p" class="btn btn-sm btn-primary" value="Upload"></input>
+              {{#if f2p}}
+               <img class="profile-user-img img-fluid img-circle" src="{{f2p}}" alt="User Image">
+              {{else}}
+              {{/if}}
+            </div>
+             <div class="form-group">
+                  <label>Date/Time:</label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{date}}" required/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner Photo</label>
+              <br/>
+             <input type="file" name="banner" class="btn btn-sm btn-primary" value="Upload"></input>
+              {{#if link}}
+               <img class="profile-user-img img-fluid img-circle" src="{{link}}" alt="User Image">
+              {{else}}
+              {{/if}}
+            </div>
+            <div class="text-center mt-5 mb-3">
+          
+              <button type="submit" class="btn btn-primary btn-block">Add/Edit Event</a>
+            </div>
+          </form>
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+      </div>
+      <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->

@@ -1,0 +1,306 @@
+<script>
+  var chkcounter=0;
+  document.addEventListener("DOMContentLoaded",function(){
+    var target=document.getElementsByTagName("input");
+    for(var i=0;i<target.length;i++){
+      if(target[i].checked==true){
+        chkcounter++;
+      }
+      else{
+        
+      }
+    }
+    var success=getQueryStringValue('success');
+    if(success==='1'){
+      alert('Banners Uploaded!');
+    }
+    else if(error==='2'){
+      alert('No File Uploaded!');
+    }
+    else{
+
+    }
+  });
+</script>
+<script>
+  function getQueryStringValue (key) {  
+  return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+}  
+</script>
+<script src="dist/bundle.min.js"></script>
+<script language="javascript" type="text/javascript">
+function randomString() {
+	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+	var string_length = 10;
+	var randomstring = '';
+	for (var i=0; i<string_length; i++) {
+		var rnum = Math.floor(Math.random() * chars.length);
+		randomstring += chars.substring(rnum,rnum+1);
+	}
+	document.uploadForm.license.value = randomstring;
+}
+</script>
+<script>
+  function setchkval(ele){
+    var target=document.getElementsByTagName("input");
+    var target2=document.getElementById("footermgmttxt");
+    var target3=document.getElementById("footermgmtbox");
+    for(var i=0;i<target.length;i++){
+    if(target[i]==ele){
+      if(target[i].checked && chkcounter<2){
+        chkcounter++;
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/events', true);
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+          xhr.send(JSON.stringify({val:i,pos:chkcounter}));
+      }
+      else if(chkcounter>=2 && target[i].checked){
+        
+        target[i].checked=false;
+        
+      }
+      else{
+      
+        chkcounter--;
+        xhr.open('POST', '/eventsneg', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+        xhr.send(JSON.stringify({val:i,pos:chkcounter}));
+        target[i].value=false;
+        target3.value="0";
+      }
+      
+    }
+    }
+  }
+</script>
+<script>
+  function setchk2val(ele){
+    var target=document.getElementsByTagName("input");
+    var target2=document.getElementById("footermgmttxt");
+    var target3=document.getElementById("footermgmtbox");
+    for(var i=0;i<target.length;i++){
+    if(target[i]==ele){
+      if(target[i].checked){
+        target2.hidden=false;
+        target3.hidden=false;
+        target[i].value=true;
+      }
+      else{
+        target[i].value=false;
+        target2.hidden=true;
+        target3.hidden=true;
+        target3.value="0";
+      }
+      
+    }
+    }
+  }
+</script>
+<script>
+ function setvolval(){
+   var target=document.getElementById("todoCheck5");
+   var target2=document.getElementById("vollimit");
+    var target3=document.getElementById("vollimit2");
+   if(target.checked){
+      target2.disabled=false;
+   }
+   else{
+    target2.disabled=true;
+    target2.value="0";
+    target3.value="0";
+   }
+ }
+</script>
+<script>
+  function updatehiddeninfo(){
+    var target=document.getElementById("vollimit");
+    var target2=document.getElementById("vollimit2");
+    target2.value=target.value;
+  }
+</script>
+<script language="javascript" type="text/javascript">
+function constdata() {
+    let dropdown = document.uploadForm.constituency;
+    dropdown.length = 0;
+
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Select one';
+    defaultOption.disabled = true;
+    const stateval=document.uploadForm.state.value;
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
+    var dat="{{data1}}".replace(/&quot;/g,'"')
+    var listdata=JSON.parse(dat);
+	for(let i=0;i<listdata[stateval].constituency.length;i++){
+         option = document.createElement('option');
+      	  option.text = listdata[stateval].constituency[i].constituency_name;
+      	  option.value = listdata[stateval].constituency[i].constituency_name;
+      	  dropdown.add(option);
+    }
+
+}
+</script>
+<script language="javascript" type="text/javascript">
+function assembdata() {
+    let dropdown = document.uploadForm.assembly;
+    dropdown.length = 0;
+    var ptr=0;
+    let defaultOption = document.createElement('option');
+    
+    const stateval=document.uploadForm.state.value;
+    const constval=document.uploadForm.constituency.value;
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
+    var dat="{{data1}}".replace(/&quot;/g,'"')
+    var listdata=JSON.parse(dat);
+   
+	for(let i=0;i<listdata[stateval].constituency.length;i++){
+    if(listdata[stateval].constituency[i].constituency_name === constval){
+      for(let j=0;j<listdata[stateval].constituency[i].assembly.length;j++){
+         option = document.createElement('option');
+      	  option.text = listdata[stateval].constituency[i].assembly[j].assembly_name;
+      	  option.value = listdata[stateval].constituency[i].assembly[j].assembly_name;
+      	  dropdown.add(option);
+      }
+      
+    }
+    }
+  loadlist();
+
+}
+</script>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="card-header">
+        <h3 class="card-title">Select Option</h3>
+      </div>
+      <div class="card-body">
+    
+        <div class="card card-primary">
+          <table class="table table-bordered text-center">
+                  <tr>
+                    <td>
+                      {{#if event1}}
+                      <a href="event1" class="btn btn-block btn-success btn-lg">{{event1}}</a>
+                      {{else}}
+                      <a href="event1" class="btn btn-block btn-success btn-lg">Event 1</a>
+                      {{/if}}
+                      <a>Featured</a>
+                  {{#if (compare "event1" cntr1)}}
+                      <input type="checkbox" value="true" name="event1chk" id="chkevent1" onchange="setchkval(this);" checked>
+                    {{else}}
+                     {{#if (compare "event1" cntr2)}}
+                    <input type="checkbox" value="true" name="event1chk" id="chkevent1" onchange="setchkval(this);" checked>
+                    {{else}}
+                    <input type="checkbox" value="true" name="event1chk" id="chkevent1" onchange="setchkval(this);">
+                    {{/if}}
+                    {{/if}}
+                    </td>
+                    <td>
+                       {{#if event2}}
+                      <a href="event2" class="btn btn-block btn-success btn-lg">{{event2}}</a>
+                      {{else}}
+                      <a href="event2" class="btn btn-block btn-success btn-lg">Event 2</a>
+                      {{/if}}
+                      <a>Featured</a>
+                  {{#if (compare "event2" cntr1)}}
+                      <input type="checkbox" value="true" name="event2chk" id="chkevent2" onchange="setchkval(this);" checked>
+                    {{else}}
+                     {{#if (compare "event2" cntr2)}}
+                    <input type="checkbox" value="true" name="event2chk" id="chkevent2" onchange="setchkval(this);" checked>
+                    {{else}}
+                    <input type="checkbox" value="true" name="event2chk" id="chkevent2" onchange="setchkval(this);">
+                    {{/if}}
+                    {{/if}}
+                    </td>
+                    <td>
+                       {{#if event3}}
+                      <a href="event3" class="btn btn-block btn-success btn-lg">{{event3}}</a>
+                      {{else}}
+                      <a href="event3" class="btn btn-block btn-success btn-lg">Event 3</a>
+                      {{/if}}
+                      <a>Featured</a>
+                  {{#if (compare "event3" cntr1)}}
+                      <input type="checkbox" value="true" name="event3chk" id="chkevent3" onchange="setchkval(this);" checked>
+                    {{else}}
+                     {{#if (compare "event3" cntr2)}}
+                    <input type="checkbox" value="true" name="event3chk" id="chkevent3" onchange="setchkval(this);" checked>
+                    {{else}}
+                    <input type="checkbox" value="true" name="event3chk" id="chkevent3" onchange="setchkval(this);">
+                    {{/if}}
+                    {{/if}}
+                    </td>
+                   <td>
+                       {{#if event4}}
+                      <a href="event4" class="btn btn-block btn-success btn-lg">{{event4}}</a>
+                      {{else}}
+                      <a href="event4" class="btn btn-block btn-success btn-lg">Event 4</a>
+                      {{/if}}
+                      <a>Featured</a>
+                  {{#if (compare "event4" cntr1)}}
+                      <input type="checkbox" value="true" name="event4chk" id="chkevent4" onchange="setchkval(this);" checked>
+                    {{else}}
+                     {{#if (compare "event4" cntr2)}}
+                    <input type="checkbox" value="true" name="event4chk" id="chkevent4" onchange="setchkval(this);" checked>
+                    {{else}}
+                    <input type="checkbox" value="true" name="event4chk" id="chkevent4" onchange="setchkval(this);">
+                    {{/if}}
+                    {{/if}}
+                    </td>
+                    <td>
+                       {{#if event5}}
+                      <a href="event5" class="btn btn-block btn-success btn-lg">{{event5}}</a>
+                      {{else}}
+                      <a href="event5" class="btn btn-block btn-success btn-lg">Event 5</a>
+                      {{/if}}
+                      <a>Featured</a>
+                  {{#if (compare "event5" cntr1)}}
+                      <input type="checkbox" value="true" name="event5chk" id="chkevent5" onchange="setchkval(this);" checked>
+                    {{else}}
+                     {{#if (compare "event5" cntr2)}}
+                    <input type="checkbox" value="true" name="event5chk" id="chkevent5" onchange="setchkval(this);" checked>
+                    {{else}}
+                    <input type="checkbox" value="true" name="event5chk" id="chkevent5" onchange="setchkval(this);">
+                    {{/if}}
+                    {{/if}}
+                    </td>
+                   <td>
+                       {{#if event6}}
+                      <a href="event6" class="btn btn-block btn-success btn-lg">{{event6}}</a>
+                      {{else}}
+                      <a href="event6" class="btn btn-block btn-success btn-lg">Event 6</a>
+                      {{/if}}
+                      <a>Featured</a>
+                  {{#if (compare "event6" cntr1)}}
+                      <input type="checkbox" value="true" name="event6chk" id="chkevent6" onchange="setchkval(this);" checked>
+                    {{else}}
+                     {{#if (compare "event6" cntr2)}}
+                    <input type="checkbox" value="true" name="event6chk" id="chkevent6" onchange="setchkval(this);" checked>
+                    {{else}}
+                    <input type="checkbox" value="true" name="event6chk" id="chkevent6" onchange="setchkval(this);">
+                    {{/if}}
+                    {{/if}}
+                    </td>
+                  </tr>
+                </table>
+   
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+         <script src="plugins/jquery/jquery.min.js"></script>
+          <script src="dist/choices.min.js"></script>
+          <link href="dist/choices.css" rel="stylesheet">
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+  <script>
+function loadlist() {
+var secondElement = new Choices('#assembly', { allowSearch: true }).setValue([]);
+}
+
+</script>
+      

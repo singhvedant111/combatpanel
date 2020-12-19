@@ -1,0 +1,107 @@
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase.js"></script>
+
+
+<script>
+  function uploadfile(){
+var firebaseConfig = {
+    apiKey: "AIzaSyAFqqHgK1BCualtGBwvXMnqFYeXnCcmZcY",
+    authDomain: "combatpugilist-01.firebaseapp.com",
+    databaseURL: "https://combatpugilist-01.firebaseio.com",
+    projectId: "combatpugilist-01",
+    storageBucket: "combatpugilist-01.appspot.com",
+    messagingSenderId: "67045727386",
+    appId: "1:67045727386:web:ac17e342db5acbee885323"
+  };
+firebase.initializeApp(firebaseConfig);
+var storageRef = firebase.storage().ref();
+var videotitle = document.getElementById('videotitle').text;
+var bannerfile = document.getElementById('banner_upload').files[0];
+var videofile = document.getElementById('video_upload').files;
+var metadata = {
+  contentType: 'image/jpeg'
+};
+  var uploadTask1 = storageRef.child('images/suresh.jpeg').put(bannerfile,metadata);
+  uploadTask1.on(firebase.storage.TaskEvent.STATE_CHANGED,function(snapshot) {
+    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    console.log('Upload is ' + progress + '% done');
+    switch (snapshot.state) {
+      case firebase.storage.TaskState.PAUSED: 
+        console.log('Upload is paused');
+        break;
+      case firebase.storage.TaskState.RUNNING: 
+        console.log('Upload is running');
+        break;
+    }
+  }, function(error) {
+
+  
+  switch (error.code) {
+    case 'storage/unauthorized':
+      break;
+
+    case 'storage/canceled':
+      break;
+
+    case 'storage/unknown':
+      break;
+  }
+}, function() {
+  uploadTask1.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    console.log('File available at', downloadURL);
+  });
+});
+  }
+</script>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="card-header">
+        <h3 class="card-title">Video</h3>
+      </div>
+      <div class="card-body">
+    
+        <div class="card card-primary">
+        
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <label for="inputProjectLeader">Title</label>
+              <input type="text" name="title" id="videotitle" class="form-control" placeholder="Title" value="{{title}}" required>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner Photo</label>
+              <br/>
+             <input type="file" name="banner" id="banner_upload" class="btn btn-sm btn-success" value="Upload" accept="image/*"></input>
+             <div class="col-sm-3">
+             </div>
+             
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Browse Video</label>
+              <br/>
+             <input type="file" id="video_upload" name="videos" class="btn btn-sm btn-success" value="Upload" accept="videos/mp4"></input>
+            </div>
+            <div class="text-center mt-5 mb-3">
+              <button type="button" class="btn btn-primary btn-block" onClick="uploadfile();">Upload</button>
+            </div>
+             <label for="inputProjectLeader">Uploaded Videos</label>
+            {{#each videolist}}
+            <div class="col-sm-3">
+               <br/>
+               <img class="img-fluid mb-2" src="{{this}}" alt="Photo">
+               <a href="/remphoto?gallery=gallery1&url={{@key}}" class="btn btn-danger">Remove</a>
+             </div>
+             {{/each}}
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+      </div>
+      <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->

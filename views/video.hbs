@@ -1,0 +1,256 @@
+ <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-database.js"></script>
+    <style>
+* {box-sizing: border-box;}
+
+
+
+.overlay {
+  position: absolute; 
+  bottom: 0; 
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1; 
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.videoplayback:hover .overlay {
+  opacity: 1;
+}
+</style>
+  <style>
+    #Progress_Status { 
+  width: 50%; 
+  background-color: #ddd; 
+} 
+  
+#myprogressBar { 
+  width: 1%; 
+  height: 35px; 
+  background-color: #4CAF50; 
+  text-align: center; 
+  line-height: 32px; 
+  color: black; 
+} 
+
+   #Progress_Status2 { 
+  width: 50%; 
+  background-color: #ddd; 
+} 
+  
+#myprogressBar1 { 
+  width: 1%; 
+  height: 35px; 
+  background-color: #4CAF50; 
+  text-align: center; 
+  line-height: 32px; 
+  color: black; 
+} 
+  </style>
+  <script> 
+
+</script> 
+<script>
+  function UUID() {
+    // http://www.ietf.org/rfc/rfc4122.txt
+    var s = [];
+    var hexDigits = "abcdefghijkl";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+
+    var uuid = s.join("");
+    return uuid;
+}
+</script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAFqqHgK1BCualtGBwvXMnqFYeXnCcmZcY",
+    authDomain: "combatpugilist-01.firebaseapp.com",
+    databaseURL: "https://combatpugilist-01.firebaseio.com",
+    projectId: "combatpugilist-01",
+    storageBucket: "combatpugilist-01.appspot.com",
+    messagingSenderId: "67045727386",
+    appId: "1:67045727386:web:b19419660cf6ed88885323"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<script>
+  
+  function uploadfile(){
+    var uuidtxt=UUID();
+    var bannerfile=document.getElementById('banner_upload').files[0];
+    var titletext=document.getElementById('titletxt').value;
+    var videofile=document.getElementById('video_upload').files[0];
+    var storageRef = firebase.storage().ref();
+    var metadata = {
+  contentType: 'image/jpeg',
+};
+var uploadTask1 = storageRef.child('banners/'+bannerfile.name).put(bannerfile);
+var uploadTask2 = storageRef.child('videos/'+bannerfile.name).put(videofile);
+uploadTask1.on('state_changed', function(snapshot){
+  // Observe state change events such as progress, pause, and resume
+  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  var progress = Math.ceil((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+  var element = document.getElementById("myprogressBar");    
+  element.innerText=progress+'%';
+  var width = 1; 
+  var identity = setInterval(scene, 10); 
+  function scene() { 
+    if (width >= 100) { 
+      clearInterval(identity); 
+    } else { 
+      width++;  
+      element.style.width = progress + '%';  
+    } 
+  } 
+  console.log('Upload is ' + progress + '% done');
+  switch (snapshot.state) {
+    case firebase.storage.TaskState.PAUSED: // or 'paused'
+      console.log('Upload is paused');
+      break;
+    case firebase.storage.TaskState.RUNNING: // or 'running'
+      console.log('Upload is running');
+      break;
+  }
+}, function(error) {
+  // Handle unsuccessful uploads
+}, function() {
+  // Handle successful uploads on complete
+  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+  uploadTask1.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    firebase.database().ref('videos/'+uuidtxt).update({
+      title: titletext,
+      banner: downloadURL
+    });
+  });
+});
+
+uploadTask2.on('state_changed', function(snapshot1){
+  // Observe state change events such as progress, pause, and resume
+  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  var progress1 = Math.ceil((snapshot1.bytesTransferred / snapshot1.totalBytes) * 100);
+  var element1 = document.getElementById("myprogressBar1");    
+  var width1 = 1; 
+  element1.innerText=progress1+'%';
+  var identity1 = setInterval(scene1, 10); 
+  function scene1() { 
+    if (width1 >= 100) { 
+      clearInterval(identity1); 
+    } else { 
+      width1++;  
+      element1.style.width = progress1 + '%';  
+    } 
+  } 
+  console.log('Upload is lauda' + progress1 + '% done');
+  switch (snapshot1.state) {
+    case firebase.storage.TaskState.PAUSED: // or 'paused'
+      console.log('Upload is paused');
+      break;
+    case firebase.storage.TaskState.RUNNING: // or 'running'
+      console.log('Upload is running');
+      break;
+  }
+}, function(error) {
+  // Handle unsuccessful uploads
+}, function() {
+  // Handle successful uploads on complete
+  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+  uploadTask2.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    firebase.database().ref('videos/'+uuidtxt).update({
+      title: titletext,
+      video: downloadURL
+    }).then(
+      function(){
+        location.reload();
+      }
+    );
+  });
+});
+
+  }
+</script>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="card-header">
+        <h3 class="card-title">Video</h3>
+      </div>
+      <div class="card-body">
+    
+        <div class="card card-primary">
+        
+          </div>
+          <div class="card-body">
+            
+            <div class="form-group">
+              <label for="inputProjectLeader">Title</label>
+              <input type="text" name="title" id="titletxt" class="form-control" placeholder="Title" value="{{title}}" required>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner Photo</label>
+              <br/>
+             <input type="file" name="banner" id="banner_upload" class="btn btn-sm btn-success" value="Upload" accept="image/*"></input> 
+             <div id="Progress_Status"> 
+                <div id="myprogressBar"></div> 
+              </div> 
+             <div class="col-sm-3">
+             </div>
+             
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Browse Video</label>
+              <br/>
+             <input type="file" id="video_upload" name="videos" class="btn btn-sm btn-success" value="Upload" accept="video/mp4"></input>
+             <div id="Progress_Status2"> 
+                <div id="myprogressBar1"></div> 
+              </div> 
+            </div>
+            <div class="text-center mt-5 mb-3">
+          
+              <button type="submit" class="btn btn-primary btn-block" onclick="uploadfile();">Upload Video</a>
+            </div>
+             <label for="inputProjectLeader">Uploaded Videos</label>
+            {{#each videolist}}
+            <div class="col-sm-3">
+               <br/>
+               <div class="videoplayback">
+               <a href="{{video}}"><img class="img-fluid mb-2" src="{{banner}}" alt="Photo"></a>
+               <div class="overlay">CLICK TO PLAY VIDEO</div>
+               </div>
+               
+             </div>
+             <p>{{title}}</p>
+               <a href="/remvideo?url={{@key}}" class="btn btn-danger">Remove</a>
+             {{/each}}
+   
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+      </div>
+      <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->

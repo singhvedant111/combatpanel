@@ -1,0 +1,277 @@
+<script>
+  document.addEventListener("DOMContentLoaded",function(){
+    var error=getQueryStringValue('error');
+    if(error==='1'){
+      alert('User Already Exists !');
+    }
+    else if(error==='2'){
+      alert('No File Uploaded!');
+    }
+    else{
+
+    }
+  });
+</script>
+<script>
+  function getQueryStringValue (key) {  
+  return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+}  
+</script>
+<script src="dist/bundle.min.js"></script>
+<script language="javascript" type="text/javascript">
+function randomString() {
+	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+	var string_length = 10;
+	var randomstring = '';
+	for (var i=0; i<string_length; i++) {
+		var rnum = Math.floor(Math.random() * chars.length);
+		randomstring += chars.substring(rnum,rnum+1);
+	}
+	document.uploadForm.license.value = randomstring;
+}
+</script>
+<script>
+  function setchkval(ele){
+    var target=document.getElementsByTagName("input");
+    var target2=document.getElementById("footermgmttxt");
+    var target3=document.getElementById("footermgmtbox");
+    for(var i=0;i<target.length;i++){
+    if(target[i]==ele){
+      if(target[i].checked){
+        target[i].value=true;
+      }
+      else{
+        target[i].value=false;
+        target3.value="0";
+      }
+      
+    }
+    }
+  }
+</script>
+<script>
+  function setchk2val(ele){
+    var target=document.getElementsByTagName("input");
+    var target2=document.getElementById("footermgmttxt");
+    var target3=document.getElementById("footermgmtbox");
+    for(var i=0;i<target.length;i++){
+    if(target[i]==ele){
+      if(target[i].checked){
+        target2.hidden=false;
+        target3.hidden=false;
+        target[i].value=true;
+      }
+      else{
+        target[i].value=false;
+        target2.hidden=true;
+        target3.hidden=true;
+        target3.value="0";
+      }
+      
+    }
+    }
+  }
+</script>
+<script>
+ function setvolval(){
+   var target=document.getElementById("todoCheck5");
+   var target2=document.getElementById("vollimit");
+    var target3=document.getElementById("vollimit2");
+   if(target.checked){
+      target2.disabled=false;
+   }
+   else{
+    target2.disabled=true;
+    target2.value="0";
+    target3.value="0";
+   }
+ }
+</script>
+<script>
+  function updatehiddeninfo(){
+    var target=document.getElementById("vollimit");
+    var target2=document.getElementById("vollimit2");
+    target2.value=target.value;
+  }
+</script>
+<script language="javascript" type="text/javascript">
+function constdata() {
+    let dropdown = document.uploadForm.constituency;
+    dropdown.length = 0;
+
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Select one';
+    defaultOption.disabled = true;
+    const stateval=document.uploadForm.state.value;
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
+    var dat="{{data1}}".replace(/&quot;/g,'"')
+    var listdata=JSON.parse(dat);
+	for(let i=0;i<listdata[stateval].constituency.length;i++){
+         option = document.createElement('option');
+      	  option.text = listdata[stateval].constituency[i].constituency_name;
+      	  option.value = listdata[stateval].constituency[i].constituency_name;
+      	  dropdown.add(option);
+    }
+
+}
+</script>
+<script language="javascript" type="text/javascript">
+function assembdata() {
+    let dropdown = document.uploadForm.assembly;
+    dropdown.length = 0;
+    var ptr=0;
+    let defaultOption = document.createElement('option');
+    
+    const stateval=document.uploadForm.state.value;
+    const constval=document.uploadForm.constituency.value;
+    dropdown.add(defaultOption);
+    dropdown.selectedIndex = 0;
+    var dat="{{data1}}".replace(/&quot;/g,'"')
+    var listdata=JSON.parse(dat);
+   
+	for(let i=0;i<listdata[stateval].constituency.length;i++){
+    if(listdata[stateval].constituency[i].constituency_name === constval){
+      for(let j=0;j<listdata[stateval].constituency[i].assembly.length;j++){
+         option = document.createElement('option');
+      	  option.text = listdata[stateval].constituency[i].assembly[j].assembly_name;
+      	  option.value = listdata[stateval].constituency[i].assembly[j].assembly_name;
+      	  dropdown.add(option);
+      }
+      
+    }
+    }
+  loadlist();
+
+}
+</script>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="card-header">
+        <h3 class="card-title">Level4</h3>
+      </div>
+      <div class="card-body">
+    
+        <div class="card card-primary">
+        
+          </div>
+          <div class="card-body">
+            <form ref='uploadForm' name="uploadForm" action="/level4" method="POST" encType="multipart/form-data">
+           
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 1</label>
+              <br/>
+             <input type="file" name="banner1" class="btn btn-sm btn-primary" value="Upload"></input>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 2</label>
+              <br/>
+             <input type="file" name="banner2" class="btn btn-sm btn-success"></input>
+            </div>
+
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 3</label>
+              <br/>
+             <input type="file" name="banner3" class="btn btn-sm btn-success"></input>
+            </div>
+               <div class="form-group">
+              <label for="inputProjectLeader">Banner 4</label>
+              <br/>
+             <input type="file" name="banner4" class="btn btn-sm btn-primary" value="Upload"></input>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 5</label>
+              <br/>
+             <input type="file" name="banner5" class="btn btn-sm btn-success"></input>
+            </div>
+
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 6</label>
+              <br/>
+             <input type="file" name="banner6" class="btn btn-sm btn-success"></input>
+            </div>
+
+               <div class="form-group">
+              <label for="inputProjectLeader">Banner 7</label>
+              <br/>
+             <input type="file" name="banner7" class="btn btn-sm btn-primary" value="Upload"></input>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 8</label>
+              <br/>
+             <input type="file" name="banner8" class="btn btn-sm btn-success"></input>
+            </div>
+
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 9</label>
+              <br/>
+             <input type="file" name="banner9" class="btn btn-sm btn-success"></input>
+            </div>
+
+               <div class="form-group">
+              <label for="inputProjectLeader">Banner 10</label>
+              <br/>
+             <input type="file" name="banner10" class="btn btn-sm btn-primary" value="Upload"></input>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 11</label>
+              <br/>
+             <input type="file" name="banner11" class="btn btn-sm btn-success"></input>
+            </div>
+
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 12</label>
+              <br/>
+             <input type="file" name="banner12" class="btn btn-sm btn-success"></input>
+            </div>
+
+               <div class="form-group">
+              <label for="inputProjectLeader">Banner 13</label>
+              <br/>
+             <input type="file" name="banner13" class="btn btn-sm btn-primary" value="Upload"></input>
+            </div>
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 14</label>
+              <br/>
+             <input type="file" name="banner14" class="btn btn-sm btn-success"></input>
+            </div>
+
+            <div class="form-group">
+              <label for="inputProjectLeader">Banner 15</label>
+              <br/>
+             <input type="file" name="banner15" class="btn btn-sm btn-success"></input>
+            </div>
+
+               <div class="form-group">
+              <label for="inputProjectLeader">Banner 16</label>
+              <br/>
+             <input type="file" name="banner16" class="btn btn-sm btn-primary" value="Upload"></input>
+            </div>
+            <div class="text-center mt-5 mb-3">
+          
+                 <button type="submit" class="btn btn-primary btn-block">Upload Banners</button>
+            </div>
+          </form>
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+         <script src="plugins/jquery/jquery.min.js"></script>
+          <script src="dist/choices.min.js"></script>
+          <link href="dist/choices.css" rel="stylesheet">
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+  <script>
+function loadlist() {
+var secondElement = new Choices('#assembly', { allowSearch: true }).setValue([]);
+}
+
+</script>
+      
